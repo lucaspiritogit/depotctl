@@ -1,0 +1,38 @@
+# depotctl.toml: shared settings for the games in this folder.
+# Keep it next to your game projects (`depotctl init` creates it) and, if you like,
+# commit it to a repo your team shares. Per-machine settings go in depotctl.local.toml.
+#
+# Project paths are relative to this file's folder. A missing project folder is cloned
+# from `repo`.
+
+[defaults]
+targets = ["windows", "macos"]
+# Steam beta branch each upload is set live on. Create it first in Steamworks >
+# SteamPipe > Builds (password-protect it for testers). "" = upload without setting live.
+set_live = "testing"
+# Files that never ship (matched in every depot).
+exclude = [
+  "*.pdb",
+  "*_BurstDebugInformation_DoNotShip*",
+  "*_BackUpThisFolder_ButDontShipItWithYourGame*",
+  "*steam_appid.txt",  # dev-only; launching through Steam doesn't need it
+]
+
+# ---- projects
+# One table per game. `depotctl list --discover` prints these for Unity projects it finds.
+
+[projects.my-game]
+name = "My Game"
+path = "my-game"                              # folder of the Unity project
+repo = "git@github.com:your-org/my-game.git"  # optional: cloned if `path` is missing
+product_name = "My Game"                      # becomes "<product_name>.exe" / ".app"
+steam_app_id = 0                              # Steamworks App ID
+# git_branch = "main"                         # pull this branch; unset = current branch
+# vcs = "unity"                               # use `unity vcs sync` instead of git pull
+# unity_build_args = []                       # extra flags for `unity build`
+# mac_arch = "universal"                      # editor builder only: universal | x64 | arm64
+
+[projects.my-game.depots]
+# Steamworks > SteamPipe > Depots. The Windows depot is usually App ID + 1.
+windows = 0
+macos = 0

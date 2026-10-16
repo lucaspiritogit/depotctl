@@ -1,0 +1,11 @@
+# Your own config and builds never belong in this repo
+depotctl.toml
+depotctl.local.toml
+depotctl-builds/
+builds/
+
+__pycache__/
+*.egg-info/
+.venv/
+dist/
+.DS_Store

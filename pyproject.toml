@@ -1,0 +1,44 @@
+[project]
+name = "depotctl"
+version = "0.1.0"
+description = "Pull, build (Windows + macOS) and upload Unity games to Steam depots from one command."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+dependencies = []  # standard library only
+keywords = ["unity", "steam", "steamworks", "steamcmd", "gamedev", "build", "deploy", "ci"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: MacOS",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Games/Entertainment",
+  "Topic :: Software Development :: Build Tools",
+]
+
+[project.urls]
+Homepage = "https://github.com/lucaspiritogit/depotctl"
+Issues = "https://github.com/lucaspiritogit/depotctl/issues"
+
+[project.scripts]
+depotctl = "depotctl.cli:main"
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/depotctl"]
+
+# Ship the uploader image, Unity build script and config templates inside the package
+# (depotctl/resources.py reads them from here, or from the repo in editable installs).
+[tool.hatch.build.targets.wheel.force-include]
+"docker" = "depotctl/resources/docker"
+"unity" = "depotctl/resources/unity"
+"depotctl.example.toml" = "depotctl/resources/templates/depotctl.toml"
+"depotctl.local.example.toml" = "depotctl/resources/templates/depotctl.local.toml"

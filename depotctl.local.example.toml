@@ -1,0 +1,35 @@
+# depotctl.local.toml: settings for this machine only. Don't commit it.
+# `depotctl init` creates it next to depotctl.toml.
+
+# Dedicated Steam build account (only "Edit App Metadata" + "Publish App Changes" rights).
+steam_user = ""
+
+# How builds reach Steam:
+#   auto   -> docker on Windows/Linux, native steamcmd on macOS (default)
+#   docker -> steamcmd in a Linux container (fixes macOS exec bits + ad-hoc signs the .app)
+#   native -> steamcmd installed on this machine (set steamcmd below)
+uploader = "auto"
+# steamcmd = "~/steamcmd/steamcmd.sh"      # macOS native
+# steamcmd = "C:/steamcmd/steamcmd.exe"    # Windows native (Windows-only uploads)
+
+# How players are built:
+#   unity-cli -> `unity build` (Unity CLI, experimental)
+#   editor    -> Unity editor -batchmode + the fallback C# script
+#                (run `depotctl install-build-script <project>` once)
+builder = "unity-cli"
+unity_cli = "unity"
+ensure_editor = true                       # install the project's editor/modules if missing
+# unity_editor = "C:/Program Files/Unity/Hub/Editor/{version}/Editor/Unity.exe"
+# unity_prefix = ["xvfb-run", "-a"]        # headless Linux: give Unity a virtual display
+
+keep_builds = 5                            # per project; older build folders are deleted
+# builds_dir = "depotctl-builds"           # relative to this file's folder
+# docker_image = "depotctl-steam:latest"
+# docker_volume = "depotctl-steam-home"    # holds steamcmd + the cached Steam login
+
+# workspace = "~/games"                    # if your game repos live somewhere else
+
+# Per-project overrides for this machine, e.g. a different checkout or an SSH clone URL:
+# [projects.my-game]
+# path = "D:/elsewhere/my-game"
+# repo = "git@github.com:your-org/my-game.git"
